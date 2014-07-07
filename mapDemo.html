@@ -1,0 +1,91 @@
+<! DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" >
+		<title>Require</title>
+		<link rel="stylesheet" type="text/css" href="style/css/bootstrap.min.css">
+		<link rel="stylesheet" href="style/css/font-awesome.min.css">
+		<link rel="stylesheet" href="style/css/map.css">
+	</head>
+	<body>
+		<div id="wrap">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-4 map-left">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th class="w-r-55">#ID</th>
+		                            <th class="w-p-50"><i class="fa fa-map-marker"></i> 地理位置</th>
+		                            <th class="w-r-55">状态</th>
+		                            <th class="w-r-70"><i class="fa fa-cog"></i> 操作</th>
+								</tr>
+							</thead>
+							<tbody class="data-container">
+								
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-8 map-right">
+						<div class="map-handle">
+							<div class="col-md-12">
+		                    	<button class="btn btn-danger" id=""><i class="fa fa-folder-open-o" ></i>选择图片
+		                        	 <input type="file" class="btn btn-danger imgflie" value="上传图片" id="fileimg">
+		                        </button>
+		                        <div class="btn-group" data-toggle="buttons" id="map-handle">
+		                            <label class="btn btn-default" id="">
+		                                <input type="radio" name="options"> <i class="fa fa-hand-o-up"></i> 固定地图
+		                            </label>
+		                            <label class="btn btn-default" id="">
+		                                <input type="radio" name="options"> <i class="fa fa-hand-o-up"></i> 解除固定
+		                            </label>
+		                            <label class="btn btn-default" id="">
+		                                <input type="radio" name="options"> <i class="fa fa-map-marker"></i> 添加标记
+		                            </label>
+		                            <label class="btn btn-default" id="">
+		                                <input type="radio" name="options"> <i class="fa fa-square-o"></i> 添加范围
+		                            </label>
+		                        </div>
+		                        <button class="btn btn-danger" id=""><i class="fa fa-times"></i> 清除中心点</button>
+		                        <button class="btn btn-danger" id=""><i class="fa fa-times"></i> 清除坐标集</button>
+		                    </div>
+						</div>
+						<div id="map-container">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--模板开始 -->
+		<script type="text/x-jquery-tmpl" id="datalist">
+			<tr id="${id}">
+				<td class="">${id}</td>
+				<td class="self-nowrap">${title}</td>
+				<td class=""><i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></td>
+		        <td class="">
+		            <div class="btn-group">
+		                <button class="btn btn-default btn-sm"><i class="fa fa-eye"></i></button>
+		                <button class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button>
+		            </div>
+		        </td>
+			</tr>
+		</script>
+		<!--模板结束 -->
+		<script src="script/jquery-1.11.0.min.js"></script>
+		<script src="script/jquery.tmpl.min.js"></script>
+		<script src="script/model.class.js"></script>
+		<script src="script/main.class.js"></script>
+		<script type="text/javascript">
+			$( function(){
+				if( window.localStorage ){
+					console.log( 'Your Browser is truely support the HTML5 localStorage API' );
+				}else{
+					console.log( "I'm sorry to tell you, your browser must be update" );
+				}
+			} )
+		</script>
+	</body>
+</html>
