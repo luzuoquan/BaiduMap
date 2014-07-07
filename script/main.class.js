@@ -2,23 +2,15 @@ var config = {
 	initUrl :{
 		getMapData : 'service/getData.php'
 	},
-	mapConfig :{
-		defaultCity: '重庆',
-		defaultZoom: 12,
-		defaultMapType: BMAP_HYBRID_MAP,
-		defaultMapId: 'map-container',
-		defaultPoints: new BMap.Point(106.524203,29.516936 ),
-		maxZoom : 17,
-		minZoom : 9
-	}
 };
-(function( c, $, v ){
-	var view = new View(),
+(function( c, $, v, C ){
+	var view = new v(),
+		control = new C(),
 		mapCon = document.getElementById( 'map-container' );
 
 	//初始化地图
 	//model.initMap( c.mapConfig );
-
+	console.log( control.mapConfig );
 	$.ajax({
 		url: c.initUrl.getMapData,
 		type: 'POST',
@@ -30,9 +22,9 @@ var config = {
 		success:function( data ){
 			var totalNum = '';
 			view.loadData( data.d );
-			view.initMap( c.mapConfig );
+			view.initMap( control.mapConfig );
 			totalNum = view.pageList( data.d );
 		}
 	})
 	
-})( config, jQuery, View )
+})( config, jQuery, View, Control )
