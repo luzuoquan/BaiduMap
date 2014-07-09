@@ -3,16 +3,16 @@ var config = {
 		getMapData : 'service/getData.php'
 	},
 };
-(function( c, $, v, C ){
-	var view = new v(),
+(function( con, $, V, C ){
+	var view = new V(),
 		control = new C(),
 		mapCon = document.getElementById( 'map-container' );
 
 	//初始化地图
 	//model.initMap( c.mapConfig );
-	console.log( control.mapConfig );
+	console.log( view.mapConfig );
 	$.ajax({
-		url: c.initUrl.getMapData,
+		url: con.initUrl.getMapData,
 		type: 'POST',
 		dataType: 'json',
 		data: { },
@@ -22,7 +22,7 @@ var config = {
 		success:function( data ){
 			var totalNum = '';
 			view.loadData( data.d );
-			view.initMap( control.mapConfig );
+			view.initMap( view.mapConfig );
 			totalNum = view.pageList( data.d );
 		}
 	})
