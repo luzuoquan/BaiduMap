@@ -51,6 +51,7 @@
 			if( bool ){ //初始化地图时的描点
 				var pen = new BMap.Polygon( obj, this.polygonOp );
 				map.addOverlay( pen );
+				console.log(13);
 			}else{ //修改的时的描点	
 
 			}
@@ -63,7 +64,7 @@
 				oMap.enableScrollWheelZoom();
 				oMap.addControl( new BMap.NavigationControl() );
 				oMap.enableKeyboard();
-			that.overlayPoly(  )
+			that.overlayPoly( that.polygonOp,true,oMap);
 		}
 	};
 	window.View = view;
