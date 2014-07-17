@@ -21,8 +21,20 @@ module.exports = function(grunt){
 			}
 		},
 		watch:{
-			files: ['script/*.js'],
-			tasks: ['concat','uglify']
+			less: {
+				files: ['style/*.less'],
+				tasks: ['less']
+			},
+			livereload: {
+				options: {
+					livereload: true
+				},
+				files: ['style/*.css','script/*.js','*.html']
+			},
+			common: {
+				files: ['script/*.js'],	
+				tasks: ['concat','uglify']
+			}
 		}
 	});
 	grunt.loadNpmTasks('grunt-contrib-concat');
