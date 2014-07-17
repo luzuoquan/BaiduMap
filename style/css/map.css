@@ -1,39 +1,44 @@
-@media screen and (min-width: 1600px){
-	.map-left,.map-right{
-		height: 600px;
-	}
-	#map-container{
-		height: 580px;
-	}
+@media screen and (min-width: 1600px) {
+  .map-left,
+  .map-right {
+    height: 600px;
+  }
+  #map-container {
+    height: 580px;
+  }
 }
-@media screen{
-	table{ table-layout: fixed; }
-	.self-nowrap{
-		display: block;
-		font-size: 14px;
-		height: auto;
-		overflow: hidden;
-		white-space: nowrap;
-		word-break: break-all;
-		word-wrap:break-word;
-		text-overflow: ellipsis;
-	}
-	.w-50{
-		width: 50%;
-	}
-	.w-r-55{
-		width: 55px;
-	}
-	.w-r-70{
-		width: 70px;
-	}
-	.btn-sm{
-		padding: 5px;
-	}
-	.map-handle{
-		height: 50px;
-	}
-	input[type="file"].imgflie {
-		display: none;
-	}
+@media screen {
+  table {
+    table-layout: fixed;
+  }
+  .self-nowrap {
+    display: block;
+    font-size: 14px;
+    height: auto;
+    overflow: hidden;
+    white-space: nowrap;
+    word-break: break-all;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+  }
+  .w-50 {
+    width: 50%;
+  }
+  .w-r-55 {
+    width: 55px;
+  }
+  .w-r-70 {
+    width: 70px;
+  }
+  .btn-sm {
+    padding: 5px;
+  }
+  .map-handle {
+    height: 50px;
+    font-size: 14px;
+    background-color: #000;
+  }
+  input[type="file"].imgflie {
+    display: none;
+  }
 }

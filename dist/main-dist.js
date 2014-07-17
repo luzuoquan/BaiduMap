@@ -101,7 +101,6 @@
 			if( bool ){ //初始化地图时的描点
 				var pen = new BMap.Polygon( obj, this.polygonOp );
 				map.addOverlay( pen );
-				console.log(13);
 			}else{ //修改的时的描点	
 
 			}

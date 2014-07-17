@@ -1,6 +1,26 @@
 module.exports = function(grunt){
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
+		connect: {
+			options: {
+				port: 9001,
+				hostname: 'localhost',
+				base: '.'
+			},
+			livereload: {
+				options: {
+					middleware: function(connect, options){
+						return [
+							require('connect-livereload')({
+								port: 35737
+							}),
+							connect.static(options.base),
+							connect.directory(options.base)
+						];
+					}
+				}
+			}
+		},
 		concat: {
 			options: {
 				separator: ';'
@@ -20,25 +40,31 @@ module.exports = function(grunt){
 				}
 			}
 		},
+		less: {
+			development: {
+				files: {
+					"style/css/map.css" : "style/css/map.less"
+				}
+			}
+		},
 		watch:{
 			less: {
-				files: ['style/*.less'],
-				tasks: ['less']
+				files: ['style/css/*.less'],
+				tasks: ['less:development']
 			},
 			livereload: {
 				options: {
-					livereload: true
+					livereload: 35737
 				},
-				files: ['style/*.css','script/*.js','*.html']
-			},
-			common: {
-				files: ['script/*.js'],	
-				tasks: ['concat','uglify']
+				files: ['style/css/*.css','script/*.js','*.html']
 			}
 		}
 	});
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-livereload');  
+    grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.registerTask('default', ['concat','uglify']);
+	grunt.registerTask('default', ['concat','uglify','watch']);
 }
