@@ -10,7 +10,6 @@ var config = {
 
 	//初始化地图
 	//model.initMap( c.mapConfig );
-	console.log( view.mapConfig );
 	$.ajax({
 		url: con.initUrl.getMapData,
 		type: 'POST',
@@ -22,7 +21,7 @@ var config = {
 		success:function( data ){
 			var totalNum = '';
 			view.loadData( data.d );
-			view.initMap( view.mapConfig );
+			view.initMap( data.d );
 			totalNum = view.pageList( data.d );
 		}
 	})

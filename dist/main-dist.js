@@ -105,6 +105,7 @@
 
 			}
 		},
+		
 		initMap : function( obj ){
 			var that = this,
 				oMap = new BMap.Map( obj.defaultMapId );
