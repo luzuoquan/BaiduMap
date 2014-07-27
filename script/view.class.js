@@ -85,8 +85,8 @@
 			return pointArray;
 		},
 		_pointToOverlay: function( obj ){
-			var str = obj.split( ',' ),
-				tmpPoint = new BMap.Point( str[ 0 ], str[ 1 ] );
+			var	str = obj.split( ',' ),
+			 	tmpPoint = new BMap.Point( str[ 0 ], str[ 1 ] );
 			return tmpPoint;
 		},
 		initMap : function( obj ){

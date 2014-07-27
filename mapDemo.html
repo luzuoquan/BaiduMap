@@ -8,6 +8,7 @@
 		<link rel="stylesheet" type="text/css" href="style/css/bootstrap.min.css">
 		<link rel="stylesheet" href="style/css/font-awesome.min.css">
 		<link rel="stylesheet" href="style/css/map.css">
+		<link rel="shortcut icon" href="map.ico">
 	</head>
 	<body>
 		<div id="wrap">
@@ -18,9 +19,9 @@
 							<thead>
 								<tr>
 									<th class="w-r-55">#ID</th>
-		                            <th class="w-p-50"><i class="fa fa-map-marker"></i> 地理位置</th>
-		                            <th class="w-r-55">状态</th>
-		                            <th class="w-r-70"><i class="fa fa-cog"></i> 操作</th>
+							                            <th class="w-p-50"><i class="fa fa-map-marker"></i> 地理位置</th>
+							                            <th class="w-r-55">状态</th>
+							                            <th class="w-r-70"><i class="fa fa-cog"></i> 操作</th>
 								</tr>
 							</thead>
 							<tbody class="data-container">
@@ -29,39 +30,42 @@
 						</table>
 						<div class="row">
 							<div class="col-md-6">
-		                        当前第 <span id="">0</span> 页,共 <span id="">0</span> 页
-		                    </div>
-		                    <div class="col-md-6">
-		                        <ul class="pagination">
-		                            <li class="disabled" id=""><a href="javascript:;">上一页</a></li>
-		                            <li class="disabled" id=""><a href="javascript:;">下一页</a></li>
-		                        </ul>
-		                    </div>
+						             	当前第 <span id="">0</span> 页,共 <span id="">0</span> 页
+						             </div>
+						             <div class="col-md-6">
+						             	<ul class="pagination">
+						                          	<li class="disabled" id=""><a href="javascript:;">上一页</a></li>
+						                          	<li class="disabled" id=""><a href="javascript:;">下一页</a></li>
+						                          </ul>
+						             </div>
 						</div>
+					</div>
+					<div class="col-md-4 single-detail">
+						
 					</div>
 					<div class="col-md-8 map-right">
 						<div class="map-handle row">
 							<div class="col-md-12">
-		                    	<button class="btn btn-danger" id=""><i class="fa fa-folder-open-o" ></i>选择图片
-		                        	 <input type="file" class="btn btn-danger imgflie" value="上传图片" id="fileimg">
-		                        </button>
-		                        <div class="btn-group" data-toggle="buttons" id="map-handle">
-		                            <label class="btn btn-default" id="">
-		                                <input type="radio" name="options"> <i class="fa fa-hand-o-up"></i> 固定地图
-		                            </label>
-		                            <label class="btn btn-default" id="">
-		                                <input type="radio" name="options"> <i class="fa fa-hand-o-up"></i> 解除固定
-		                            </label>
-		                            <label class="btn btn-default" id="">
-		                                <input type="radio" name="options"> <i class="fa fa-map-marker"></i> 添加标记
-		                            </label>
-		                            <label class="btn btn-default" id="">
-		                                <input type="radio" name="options"> <i class="fa fa-square-o"></i> 添加范围
-		                            </label>
-		                        </div>
-		                        <button class="btn btn-danger" id=""><i class="fa fa-times"></i> 清除中心点</button>
-		                        <button class="btn btn-danger" id=""><i class="fa fa-times"></i> 清除坐标集</button>
-		                    </div>
+						                    	<button class="btn btn-danger" id=""><i class="fa fa-folder-open-o" ></i>选择图片
+						                        		<input type="file" class="btn btn-danger imgflie" value="上传图片" id="fileimg">
+						                          </button>
+						                        	<div class="btn-group" data-toggle="buttons" id="map-handle">
+						                            	<label class="btn btn-default" id="">
+						                                		<input type="radio" name="options"> <i class="fa fa-hand-o-up"></i> 固定地图
+						                            	</label>
+						                            	<label class="btn btn-default" id="">
+						                               		<input type="radio" name="options"> <i class="fa fa-hand-o-up"></i> 解除固定
+						                            	</label>
+						                           	<label class="btn btn-default" id="">
+						                                		<input type="radio" name="options"> <i class="fa fa-map-marker"></i> 添加标记
+						                            	</label>
+						                            	<label class="btn btn-default" id="">
+						                                		<input type="radio" name="options"> <i class="fa fa-square-o"></i> 添加范围
+						                            	</label>
+						                        	</div>
+						                        	<button class="btn btn-danger" id=""><i class="fa fa-times"></i> 清除中心点</button>
+						                        	<button class="btn btn-danger" id=""><i class="fa fa-times"></i> 清除坐标集</button>
+		                    				</div>
 						</div>
 						<div id="map-container">
 							
@@ -75,7 +79,7 @@
 			<tr id="${id}">
 				<td class="">${id}</td>
 				<td class="self-nowrap">${title}</td>
-				<td class=""><i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></td>
+				<td class=""><i class="fa fa-star"></i> <i class="fa fa-star-o"></i></td>
 		        <td class="">
 		            <div class="btn-group">
 		                <button class="btn btn-default btn-sm"><i class="fa fa-eye"></i></button>
