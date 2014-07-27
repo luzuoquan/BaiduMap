@@ -18,7 +18,6 @@
 
 	//初始化地图
 	//model.initMap( c.mapConfig );
-	console.log( view.mapConfig );
 	$.ajax({
 		url: con.initUrl.getMapData,
 		type: 'POST',
@@ -30,7 +29,7 @@
 		success:function( data ){
 			var totalNum = '';
 			view.loadData( data.d );
-			view.initMap( view.mapConfig );
+			view.initMap( data.d );
 			totalNum = view.pageList( data.d );
 		}
 	})
@@ -51,7 +50,7 @@
 } )();(function(){
 	var view = function( obj ){
 		this.pageCount = 2; //每页展示数量
-		this.map = null //BMap对象
+		this.oMap = null //BMap对象
 		this.DataSet = obj || null; //
 		this.mapConfig = {
 			defaultCity: '重庆',
@@ -97,24 +96,58 @@
 			}
 			return pageArray;
 		},
-		overlayPoly : function( obj,bool,map ){
-			if( bool ){ //初始化地图时的描点
-				var pen = new BMap.Polygon( obj, this.polygonOp );
-				map.addOverlay( pen );
-			}else{ //修改的时的描点	
+		overlayPoly : function( obj, bool ){
+			var that = this;
+			if( obj ){
+				var oLength = obj.length;
+				for( var i = 0; i < oLength; i++ ){
+					if( obj[i].points ){
+						var oPoints = this._pointsToOverlay( obj[i].points ),
+							pen     = new BMap.Polygon( oPoints, that.polygonOp );
+						oMap.addOverlay( pen );			
+					}
+					if( obj[i].point ){
+						var oPoint = this._pointToOverlay( obj[i].point ),
+							mPen = new BMap.Marker( oPoint );
+							oMap.addOverlay( mPen );
+					}
+				}
+			}else{
+				
+			}
+		},
+		overlayMarker: function( obj ){
+			var that = this;
+			if( obj ){
+				var mPen = new BMap.Marker( new BMap.Point( obj ) );
 
 			}
 		},
-		
+		_pointsToOverlay: function( obj ){
+			var pointArray     =   [],
+				points         =   obj.split( '|' ),
+				pointsLength   =   points.length;
+			for( var t = 0; t < pointsLength; t++ ){
+				var str = points[t].split(',');
+				pointArray.push( new BMap.Point( str[ 0 ], str[ 1 ] ) );		
+			}
+			return pointArray;
+		},
+		_pointToOverlay: function( obj ){
+			var str = obj.split( ',' ),
+				tmpPoint = new BMap.Point( str[ 0 ], str[ 1 ] );
+			return tmpPoint;
+		},
 		initMap : function( obj ){
-			var that = this,
-				oMap = new BMap.Map( obj.defaultMapId );
-				oMap.setMapType( obj.defaultMapType );
-				oMap.centerAndZoom( obj.defaultPoints, obj.defaultZoom );
-				oMap.enableScrollWheelZoom();
-				oMap.addControl( new BMap.NavigationControl() );
-				oMap.enableKeyboard();
-			that.overlayPoly( that.polygonOp,true,oMap);
+			var that = this;
+			oMap = new BMap.Map( that.mapConfig.defaultMapId );
+			oMap.setMapType( that.mapConfig.defaultMapType );
+			oMap.centerAndZoom( that.mapConfig.defaultPoints, that.mapConfig.defaultZoom );
+			oMap.enableScrollWheelZoom();
+			oMap.addControl( new BMap.NavigationControl() );
+			oMap.enableKeyboard();
+			that.overlayPoly( obj, true );
+			that.overlayMarker( obj,true );
 		}
 	};
 	window.View = view;
