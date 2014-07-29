@@ -134,13 +134,8 @@
 			return pointArray;
 		},
 		_pointToOverlay: function( obj ){
-<<<<<<< HEAD
 			var	str = obj.split( ',' ),
 			 	tmpPoint = new BMap.Point( str[ 0 ], str[ 1 ] );
-=======
-			var str = obj.split( ',' ),
-				tmpPoint = new BMap.Point( str[ 0 ], str[ 1 ] );
->>>>>>> 3598c0cb814920fa357dd46475d12d5d55eb477b
 			return tmpPoint;
 		},
 		initMap : function( obj ){

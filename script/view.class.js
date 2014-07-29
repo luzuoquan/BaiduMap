@@ -1,6 +1,6 @@
 (function(){
 	var view = function( obj ){
-		this.pageCount = 2; //每页展示数量
+		this.pageCount = 3; //每页展示数量
 		this.oMap = null //BMap对象
 		this.DataSet = obj || null; //
 		this.mapConfig = {
@@ -30,9 +30,12 @@
 		}
 	};
 	view.prototype = {
-		loadData:function( data ){
-			var dataCon = document.getElementById( 'datalist' );
-			$( dataCon ).tmpl( data ).appendTo('.data-container');
+		loadData:function(originData,index){
+			var that = this,
+				index = index || 0,
+				dataCon = document.getElementById( 'datalist' ),
+				tmpData = originData[index];
+			$( dataCon ).tmpl( tmpData ).appendTo('.data-container');
 		},
 		pageList : function( obj ){
 			var pageCount = this.pageCount,
@@ -47,6 +50,12 @@
 			}
 			return pageArray;
 		},
+		pageNext: function(){
+
+		},
+		pagePrev: function(){
+
+		},
 		overlayPoly : function( obj, bool ){
 			var that = this;
 			if( obj ){
@@ -58,6 +67,7 @@
 						oMap.addOverlay( pen );			
 					}
 					if( obj[i].point ){
+
 						var oPoint = this._pointToOverlay( obj[i].point ),
 							mPen = new BMap.Marker( oPoint );
 							oMap.addOverlay( mPen );
@@ -99,6 +109,7 @@
 			oMap.enableKeyboard();
 			that.overlayPoly( obj, true );
 			that.overlayMarker( obj,true );
+
 		}
 	};
 	window.View = view;

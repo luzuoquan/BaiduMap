@@ -46,4 +46,7 @@
   .single-detail {
     display: none;
   }
+  .anchorBL {
+    display: none;
+  }
 }

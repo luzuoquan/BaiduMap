@@ -19,9 +19,9 @@
 							<thead>
 								<tr>
 									<th class="w-r-55">#ID</th>
-							                            <th class="w-p-50"><i class="fa fa-map-marker"></i> 地理位置</th>
-							                            <th class="w-r-55">状态</th>
-							                            <th class="w-r-70"><i class="fa fa-cog"></i> 操作</th>
+		                            <th class="w-p-50"><i class="fa fa-map-marker"></i> 地理位置</th>
+		                            <th class="w-r-55">状态</th>
+		                            <th class="w-r-70"><i class="fa fa-cog"></i> 操作</th>
 								</tr>
 							</thead>
 							<tbody class="data-container">
@@ -30,14 +30,14 @@
 						</table>
 						<div class="row">
 							<div class="col-md-6">
-						             	当前第 <span id="">0</span> 页,共 <span id="">0</span> 页
-						             </div>
-						             <div class="col-md-6">
-						             	<ul class="pagination">
-						                          	<li class="disabled" id=""><a href="javascript:;">上一页</a></li>
-						                          	<li class="disabled" id=""><a href="javascript:;">下一页</a></li>
-						                          </ul>
-						             </div>
+				             	当前第 <span id="">0</span> 页,共 <span id="">0</span> 页
+				            </div>
+				            <div class="col-md-6">
+				             	<ul class="pagination">
+		                          	<li class="" id=""><a href="javascript:;">上一页</a></li>
+		                          	<li class="" id=""><a href="javascript:;">下一页</a></li>
+		                        </ul>
+				            </div>
 						</div>
 					</div>
 					<div class="col-md-4 single-detail">
@@ -79,13 +79,18 @@
 			<tr id="${id}">
 				<td class="">${id}</td>
 				<td class="self-nowrap">${title}</td>
-<<<<<<< HEAD
-				<td class=""><i class="fa fa-star"></i> <i class="fa fa-star-o"></i></td>
-=======
 				<td class="">
-					<i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
+				{{if point != null && point != ''}}
+					<i class="fa fa-star"></i>
+				{{else}}
+					<i class="fa fa-star-o"></i>
+				{{/if}}
+				{{if points != null && points != ''}}
+					<i class="fa fa-star"></i>
+				{{else}}
+					<i class="fa fa-star-o"></i>
+				{{/if}}
 				</td>
->>>>>>> 3598c0cb814920fa357dd46475d12d5d55eb477b
 		        <td class="">
 		            <div class="btn-group">
 		                <button class="btn btn-default btn-sm"><i class="fa fa-eye"></i></button>

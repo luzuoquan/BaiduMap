@@ -19,10 +19,11 @@ var config = {
 
 		},
 		success:function( data ){
-			var totalNum = '';
-			view.loadData( data.d );
+			var totalData = '';
+			totalData = view.pageList( data.d );
+			view.loadData(totalData);
 			view.initMap( data.d );
-			totalNum = view.pageList( data.d );
+			console.log(totalNum.length)
 		}
 	})
 	
