@@ -3,9 +3,10 @@ var config = {
 		getMapData : 'service/getData.php'
 	},
 };
-(function( con, $, V, C ){
+(function( con, $, V, C, M){
 	var view = new V(),
 		control = new C(),
+		model = new M(),
 		mapCon = document.getElementById( 'map-container' );
 
 	//初始化地图
@@ -22,9 +23,13 @@ var config = {
 			var totalData = '';
 			totalData = view.pageList( data.d );
 			view.loadData(totalData);
+			view.pageNext(totalData);
+			view.pagePrev(totalData);
 			view.initMap( data.d );
-			console.log(totalNum.length)
+			control.fileClick();
+			console.log(view);
+			//control.initCon(view.oMap);
 		}
 	})
 	
-})( config, jQuery, View, Control )
+})( config, jQuery, View, Control, Model)

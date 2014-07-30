@@ -30,12 +30,12 @@
 						</table>
 						<div class="row">
 							<div class="col-md-6">
-				             	当前第 <span id="">0</span> 页,共 <span id="">0</span> 页
+				             	当前第 <span id="current">1</span> 页,共 <span id="totalpage">0</span> 页
 				            </div>
 				            <div class="col-md-6">
 				             	<ul class="pagination">
-		                          	<li class="" id=""><a href="javascript:;">上一页</a></li>
-		                          	<li class="" id=""><a href="javascript:;">下一页</a></li>
+		                          	<li class="" id="mapprev"><a href="javascript:;">上一页</a></li>
+		                          	<li class="" id="mapnext"><a href="javascript:;">下一页</a></li>
 		                        </ul>
 				            </div>
 						</div>
@@ -46,26 +46,26 @@
 					<div class="col-md-8 map-right">
 						<div class="map-handle row">
 							<div class="col-md-12">
-						                    	<button class="btn btn-danger" id=""><i class="fa fa-folder-open-o" ></i>选择图片
-						                        		<input type="file" class="btn btn-danger imgflie" value="上传图片" id="fileimg">
-						                          </button>
-						                        	<div class="btn-group" data-toggle="buttons" id="map-handle">
-						                            	<label class="btn btn-default" id="">
-						                                		<input type="radio" name="options"> <i class="fa fa-hand-o-up"></i> 固定地图
-						                            	</label>
-						                            	<label class="btn btn-default" id="">
-						                               		<input type="radio" name="options"> <i class="fa fa-hand-o-up"></i> 解除固定
-						                            	</label>
-						                           	<label class="btn btn-default" id="">
-						                                		<input type="radio" name="options"> <i class="fa fa-map-marker"></i> 添加标记
-						                            	</label>
-						                            	<label class="btn btn-default" id="">
-						                                		<input type="radio" name="options"> <i class="fa fa-square-o"></i> 添加范围
-						                            	</label>
-						                        	</div>
-						                        	<button class="btn btn-danger" id=""><i class="fa fa-times"></i> 清除中心点</button>
-						                        	<button class="btn btn-danger" id=""><i class="fa fa-times"></i> 清除坐标集</button>
-		                    				</div>
+		                    	<button class="btn btn-danger" id="filebtn"><i class="fa fa-folder-open-o" ></i>选择图片
+		                        	<input type="file" class="btn btn-danger imgflie" value="上传图片" id="fileimg">
+		                        </button>
+	                        	<div class="btn-group" data-toggle="buttons" id="map-handle">
+	                            	<label class="btn btn-default" id="fixedmap">
+	                                		<input type="radio" name="options"> <i class="fa fa-hand-o-up"></i> 固定地图
+	                            	</label>
+	                            	<label class="btn btn-default" id="">
+	                               		<input type="radio" name="options"> <i class="fa fa-hand-o-up"></i> 解除固定
+	                            	</label>
+	                           	<label class="btn btn-default" id="">
+	                                		<input type="radio" name="options"> <i class="fa fa-map-marker"></i> 添加标记
+	                            	</label>
+	                            	<label class="btn btn-default" id="">
+	                                		<input type="radio" name="options"> <i class="fa fa-square-o"></i> 添加范围
+	                            	</label>
+	                        	</div>
+	                        	<button class="btn btn-danger" id=""><i class="fa fa-times"></i> 清除中心点</button>
+	                        	<button class="btn btn-danger" id=""><i class="fa fa-times"></i> 清除坐标集</button>
+		                    </div>
 						</div>
 						<div id="map-container">
 							
@@ -103,11 +103,11 @@
 		<script src="http://localhost:35737/livereload.js?snipver=1" type="text/javascript"></script>
 		<script src="script/lib/jquery-1.11.0.min.js"></script>
 		<script src="http://api.map.baidu.com/api?v=2.0&ak=B36MAxRdlGXlb9SFmp6BYCGt"></script>
-		<script src="script/control.class.js"></script>
 		<script src="script/view.class.js"></script>
+		<script src="script/control.class.js"></script>
+		<script src="script/model.class.js"></script>
 		<script src="script/main.class.js"></script>
 		<script src="script/lib/jquery.tmpl.min.js"></script>
-		<script src="script/model.class.js"></script>
 		<script type="text/javascript">
 			$( function(){
 				if( window.localStorage ){
