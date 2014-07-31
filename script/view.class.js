@@ -124,12 +124,17 @@
 			var that = this;
 
 			$('body').on('click', '.mapedit', function(event) {
-
+				
 				event.preventDefault();
 			});
 
 		},
 		paintMarker: function(){
+
+			
+		},
+		paintPolygon: function(){
+
 
 		},
 		mapFixed: function(params){
