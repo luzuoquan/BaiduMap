@@ -52,31 +52,31 @@
 		                    <div class="form-group">
 		                        <label class="col-md-3 control-label"># ID：</label>
 		                        <div class="col-md-9">
-		                            <input type="text" name="id" class="form-control" placeholder="暂无记录ID" readonly>
+		                            <input type="text" name="id" id="landid"  class="form-control" placeholder="暂无记录ID" readonly>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
 		                        <label class="col-md-3 control-label">土地编号：</label>
 		                        <div class="col-md-9">
-		                            <input type="text" name="plotNo" class="form-control" placeholder="暂无记录土地编号" readonly>
+		                            <input type="text" name="plotNo" id="landnum" class="form-control" placeholder="暂无记录土地编号" readonly>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
 		                        <label class="col-md-3 control-label">地理位置：</label>
 		                        <div class="col-md-9">
-		                            <input type="text" name="title" class="form-control" placeholder="暂无地理位置" readonly>
+		                            <input type="text" name="title" id="landtitle" class="form-control" placeholder="暂无地理位置" readonly>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
 		                        <label class="col-md-3 control-label">中心坐标：</label>
 		                        <div class="col-md-9">
-		                            <input type="text" name="point" class="form-control" placeholder="暂无中心坐标点" readonly>
+		                            <input type="text" name="point" id="landpoint" class="form-control" placeholder="暂无中心坐标点" readonly>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
 		                        <label class="col-md-3 control-label">坐标集合：</label>
 		                        <div class="col-md-9">
-		                            <textarea name="points" class="form-control" rows="8" placeholder="暂无坐标集" readonly></textarea>
+		                            <textarea name="points" class="form-control" id="landpoints" rows="8" placeholder="暂无坐标集" readonly></textarea>
 		                        </div>
 		                    </div>
 		                </form>
@@ -130,7 +130,7 @@
 				{{/if}}
 				</td>
 		        <td class="">
-		            <div class="btn-group" data-point="${point}" data-points="${points}">
+		            <div class="btn-group" data-id="${id}" data-title="${title}" data-url="${url}" data-point="${point}" data-points="${points}">
 		                <button class="btn btn-default btn-sm maplook" ><i class="fa fa-eye" ></i></button>
 		                <button class="btn btn-primary btn-sm mapedit"><i class="fa fa-edit"></i></button>
 		            </div>

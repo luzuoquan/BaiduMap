@@ -1,29 +1,18 @@
 (function(){
 	var control = function(){
-		this.fileBtn = document.getElementById('filebtn'); //触发input[type=file]的按钮
-		this.file = document.getElementById('fileimg'); //input[type=file]
+
+		
+
+		
+
+		
+
 	};
 	control.prototype = {
-		fileClick: function(){
-			var that = this;
-			$(that.fileBtn).on('click', function(event) {
-				that.file.click();
-			});
-		},
-		mapFixed: function(params){
-			if(!params) return;
-			var fixedMap = document.getElementById('fixedmap');
-			$(fixedMap).on('click', function(event) {
-				console.log(123);
-				params.disableScrollWheelZoom();
-				params.disableDoubleClickZoom();
-				params.disableKeyboard();
-			});
-		},
+
 		initCon: function(obj){
-			var cHandle = obj;
-			console.log(obj);
-			this.mapFixed(cHandle);
+			var that = this;
+			
 		}
 	}
 	window.Control = control;
@@ -45,19 +34,25 @@
 		type: 'POST',
 		dataType: 'json',
 		data: { },
-		error:function(){
+		error:function(throwerror){
+
+			console.log(throwerror);
 
 		},
 		success:function( data ){
+
 			var totalData = '';
+
 			totalData = view.pageList( data.d );
+
 			view.loadData(totalData);
+
 			view.pageNext(totalData);
+
 			view.pagePrev(totalData);
+
 			view.initMap( data.d );
-			control.fileClick();
-			console.log(view);
-			//control.initCon(view.oMap);
+
 		}
 	})
 	
@@ -81,6 +76,10 @@
 		this.DataSet = obj || null; //
 		this.currentPage = 1; // 当前显示页码
 		this.totalPage = $('#totalpage'); //一共多少页码
+		this.isPaint = false; //是否开启描点模式
+		this.prevPoly = ''; //上一次被查看的polygon
+		this.singleDetail = document.getElementById('single-detail'); //form
+		this.selfList = document.getElementById('self-list'); //列表
 		this.mapConfig = {
 			defaultCity: '重庆',
 			defaultZoom: 9,
@@ -122,6 +121,138 @@
 			$('.data-container').empty();
 
 			$( dataCon ).tmpl( tmpData ).appendTo('.data-container');
+
+		},
+		fileClick: function(){
+
+			var that = this,
+				fileBtn = document.getElementById('filebtn'), //触发input[type=file]的按钮
+				file = document.getElementById('fileimg'); //input[type=file]
+
+			$(fileBtn).on('click', function(event) {
+
+				file.click();
+
+			});
+		},
+		backToList: function(){
+
+			var that = this,
+				returnList = document.getElementById('returnlist'); //返回
+
+			$(returnList).on('click', function(event) {
+
+				if(that.prevPoly) that.oMap.removeOverlay(that.prevPoly);
+
+				that.oMap.reset();
+
+				that.selfList.style.display = 'block';
+
+				that.singleDetail.style.display = 'none';
+			});
+		},
+		checkMap: function(){
+
+			var that = this;
+
+			$('body').on('click', '.maplook', function(event) {
+
+				var dataCon = $(this).parent('div'),
+
+                    tmpPoint = dataCon.attr('data-point'),
+
+					tmpPoints = dataCon.attr('data-points');
+
+				that.selfList.style.display = 'none';
+			
+				that.singleDetail.style.display = 'block';
+
+				if(!tmpPoints){
+
+					if(!tmpPoint) return;
+
+					that.oMap.setCenter( new BMap.Point(tmpPoint.split(',')[0], tmpPoint.split(',')[1]) );
+
+				}else{
+
+					var tmpPos = that._pointsToOverlay( tmpPoints ),
+
+						pen = new BMap.Polygon( tmpPos, that.polygonHOp );
+
+						if( that.prevPoly ) that.oMap.removeOverlay( that.prevPoly );
+
+						that.oMap.setCenter( that.oMap.getViewport(pen.getPath()).center );
+
+						that.oMap.addOverlay( pen );
+
+						that.prevPoly = pen;
+
+				}	
+			});
+		},
+		editMap: function(){
+
+			var that = this;
+
+			$('body').on('click', '.mapedit', function(event) {
+				
+				event.preventDefault();
+			});
+
+		},
+		paintMarker: function(){
+
+			
+		},
+		paintPolygon: function(){
+
+
+		},
+		mapFixed: function(params){
+
+			var  that = this;
+
+			if(!params) return;
+
+			var fixedMap = document.getElementById('fixedmap');
+
+			$(fixedMap).on('click', function(event) {
+
+				that.isPaint = true; //描点模式开启
+
+				params.disableScrollWheelZoom();
+
+				params.disableDoubleClickZoom();
+
+				params.disableKeyboard();
+
+				params.disableDragging();
+
+				event.preventDefault();
+			});
+		},
+		mapLift: function(params){
+
+			if(!params) return;
+
+			var liftMap = document.getElementById('liftmap'),
+
+				that = this;
+
+			$(liftMap).on('click', function(event) {
+
+				that.isPaint = false; //关闭描点模式
+
+				params.enableDoubleClickZoom()
+
+				params.enableDragging();
+
+				params.enableKeyboard();
+
+				params.enableScrollWheelZoom();
+
+				event.preventDefault();
+			});
 
 		},
 		pageList : function( obj ){
@@ -268,14 +399,30 @@
 			var that = this,
 				mapPrev = $('#mapprev'), //上一页
 				mapNext = $('#mapnext'); //下一页
+
 			that.oMap = new BMap.Map( that.mapConfig.defaultMapId );
+
 			that.oMap.setMapType( that.mapConfig.defaultMapType );
+
 			that.oMap.centerAndZoom( that.mapConfig.defaultPoints, that.mapConfig.defaultZoom );
+
 			that.oMap.enableScrollWheelZoom();
+
 			that.oMap.addControl( new BMap.NavigationControl() );
+
 			that.oMap.enableKeyboard();
+
 			that.overlayPoly( obj, true );
+			
 			that.overlayMarker( obj,true );
+
+			that.mapFixed( that.oMap );
+
+			that.mapLift( that.oMap );
+
+			that.checkMap();
+
+			that.backToList();
 		}
 	};
 	window.View = view;

@@ -82,7 +82,17 @@
 		},
 		checkMap: function(){
 
-			var that = this;
+			var that = this,
+
+				landId = document.getElementById('landid'), //记录ID
+
+				landNum = document.getElementById('landnum'), //土地编号
+
+				landTitle = document.getElementById('landtitle'), //地理位置
+
+				landPoint  = document.getElementById('landpoint'), //中心点坐标
+
+				landPoints = document.getElementById('landpoints'); //坐标集
 
 			$('body').on('click', '.maplook', function(event) {
 
@@ -90,7 +100,23 @@
 
                     tmpPoint = dataCon.attr('data-point'),
 
-					tmpPoints = dataCon.attr('data-points');
+					tmpPoints = dataCon.attr('data-points'),
+
+					tmpId = dataCon.attr('data-id'),
+
+					tmpTitle = dataCon.attr('data-title'),
+
+					tmpUrl = dataCon.attr('data-url');
+
+				landId.value = tmpId;
+
+				landNum.value = tmpUrl;
+
+				landTitle.value = tmpTitle; 
+
+				landPoint.value = tmpPoint;
+
+				landPoints.value = tmpPoints;
 
 				that.selfList.style.display = 'none';
 			
@@ -124,17 +150,41 @@
 			var that = this;
 
 			$('body').on('click', '.mapedit', function(event) {
-				
+
+				var dataCon = $(this).parent('div'),
+
+                    tmpPoint = dataCon.attr('data-point'),
+
+					tmpPoints = dataCon.attr('data-points'),
+
+					tmpId = dataCon.attr('data-id'),
+
+					tmpTitle = dataCon.attr('data-title'),
+
+					tmpUrl = dataCon.attr('data-url');
+
+
+				if(!tmpPoints){
+
+					if(!tmpPoint) return;
+
+					that.oMap.setCenter( new BMap.Point(tmpPoint.split(',')[0], tmpPoint.split(',')[1]) );
+
+				}else{
+
+					var tmpPos = that._pointsToOverlay( tmpPoints ),
+
+						pen = new BMap.Polygon( tmpPos, that.polygonHOp );
+
+					that.oMap.removeOverlay(pen);
+
+					console.log( pen );
+
+
+				}
+
 				event.preventDefault();
 			});
-
-		},
-		paintMarker: function(){
-
-			
-		},
-		paintPolygon: function(){
-
 
 		},
 		mapFixed: function(params){
@@ -350,6 +400,8 @@
 			that.mapLift( that.oMap );
 
 			that.checkMap();
+
+			that.editMap();
 
 			that.backToList();
 		}
