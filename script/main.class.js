@@ -16,19 +16,25 @@ var config = {
 		type: 'POST',
 		dataType: 'json',
 		data: { },
-		error:function(){
+		error:function(throwerror){
+
+			console.log(throwerror);
 
 		},
 		success:function( data ){
+
 			var totalData = '';
+
 			totalData = view.pageList( data.d );
+
 			view.loadData(totalData);
+
 			view.pageNext(totalData);
+
 			view.pagePrev(totalData);
+
 			view.initMap( data.d );
-			control.fileClick();
-			console.log(view);
-			//control.initCon(view.oMap);
+
 		}
 	})
 	

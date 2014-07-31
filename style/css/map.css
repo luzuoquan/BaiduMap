@@ -49,4 +49,7 @@
   .anchorBL {
     display: none;
   }
+  #single-detail {
+    display: none;
+  }
 }
