@@ -9,6 +9,12 @@
 		this.prevPoly = ''; //上一次被查看的polygon
 		this.singleDetail = document.getElementById('single-detail'); //form
 		this.selfList = document.getElementById('self-list'); //列表
+		this.oPolygon = {}; //内存保存polygon
+		this.oMarker = {}; //内存保存Marker
+		this.selfIcon = new BMap.Icon('style/images/markers.png', new BMap.Size(19,25),{
+			anchor: new BMap.Size( 10,25 ),
+			imageOffset: new BMap.Size( -0, -(10*25) )
+		}); //自定义icon图标
 		this.mapConfig = {
 			defaultCity: '重庆',
 			defaultZoom: 9,
@@ -147,7 +153,17 @@
 		},
 		editMap: function(){
 
-			var that = this;
+			var that = this,
+
+				landId = document.getElementById('landid'), //记录ID
+
+				landNum = document.getElementById('landnum'), //土地编号
+
+				landTitle = document.getElementById('landtitle'), //地理位置
+
+				landPoint  = document.getElementById('landpoint'), //中心点坐标
+
+				landPoints = document.getElementById('landpoints'); //坐标集
 
 			$('body').on('click', '.mapedit', function(event) {
 
@@ -163,6 +179,19 @@
 
 					tmpUrl = dataCon.attr('data-url');
 
+				landId.value = tmpId;
+
+				landNum.value = tmpUrl;
+
+				landTitle.value = tmpTitle; 
+
+				landPoint.value = tmpPoint;
+
+				landPoints.value = tmpPoints;
+
+				that.selfList.style.display = 'none';
+			
+				that.singleDetail.style.display = 'block';
 
 				if(!tmpPoints){
 
@@ -174,12 +203,11 @@
 
 					var tmpPos = that._pointsToOverlay( tmpPoints ),
 
-						pen = new BMap.Polygon( tmpPos, that.polygonHOp );
+						pen = new BMap.Polygon( tmpPos, that.polygonHOp ),
 
-					that.oMap.removeOverlay(pen);
+						oldPlo = that.oPolygon[tmpId];
 
-					console.log( pen );
-
+					that.oMap.removeOverlay(oldPlo);
 
 				}
 
@@ -324,9 +352,11 @@
 
 						var oPoints = this._pointsToOverlay( obj[i].points ),
 
-							pen     = new BMap.Polygon( oPoints, that.polygonOp );
+							pen  = new BMap.Polygon( oPoints, that.polygonOp );
 
-						that.oMap.addOverlay( pen );			
+						that.oMap.addOverlay( pen );
+						
+						that.oPolygon[obj[i].id] = pen;
 					}
 					if( obj[i].point ){
 
@@ -335,8 +365,11 @@
 							mPen = new BMap.Marker( oPoint );
 
 						that.oMap.addOverlay( mPen );
+
+						that.oMarker[obj[i].id] = mPen;
 					}
 				}
+				
 			}else{
 				
 			}
