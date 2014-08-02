@@ -80,8 +80,12 @@
 		this.prevPoly = ''; //上一次被查看的polygon
 		this.singleDetail = document.getElementById('single-detail'); //form
 		this.selfList = document.getElementById('self-list'); //列表
-		this.oPolygon = ''; //内存保存polygon
-		this.oMarker = ''; //内存保存Marker
+		this.oPolygon = {}; //内存保存polygon
+		this.oMarker = {}; //内存保存Marker
+		this.selfIcon = new BMap.Icon('style/images/markers.png', new BMap.Size(19,25),{
+			anchor: new BMap.Size( 10,25 ),
+			imageOffset: new BMap.Size( -0, -(10*25) )
+		}); //自定义icon图标
 		this.mapConfig = {
 			defaultCity: '重庆',
 			defaultZoom: 9,
@@ -270,11 +274,11 @@
 
 					var tmpPos = that._pointsToOverlay( tmpPoints ),
 
-						pen = new BMap.Polygon( tmpPos, that.polygonHOp );
+						pen = new BMap.Polygon( tmpPos, that.polygonHOp ),
 
-					that.oMap.removeOverlay(pen);
+						oldPlo = that.oPolygon[tmpId];
 
-
+					that.oMap.removeOverlay(oldPlo);
 
 				}
 
@@ -422,6 +426,7 @@
 							pen  = new BMap.Polygon( oPoints, that.polygonOp );
 
 						that.oMap.addOverlay( pen );
+						
 						that.oPolygon[obj[i].id] = pen;
 					}
 					if( obj[i].point ){
@@ -431,9 +436,11 @@
 							mPen = new BMap.Marker( oPoint );
 
 						that.oMap.addOverlay( mPen );
+
+						that.oMarker[obj[i].id] = mPen;
 					}
 				}
-				console.log(oPolygon);
+				
 			}else{
 				
 			}
