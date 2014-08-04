@@ -248,7 +248,9 @@
 
 					tmpTitle = dataCon.attr('data-title'),
 
-					tmpUrl = dataCon.attr('data-url');
+					tmpUrl = dataCon.attr('data-url'),
+
+					markerIndex = 1; //坐标集开始坐标index
 
 				landId.value = tmpId;
 
@@ -264,13 +266,9 @@
 			
 				that.singleDetail.style.display = 'block';
 
-				if(!tmpPoints){
+				if(tmpPoint) that.oMap.setCenter( new BMap.Point(tmpPoint.split(',')[0], tmpPoint.split(',')[1]) );
 
-					if(!tmpPoint) return;
-
-					that.oMap.setCenter( new BMap.Point(tmpPoint.split(',')[0], tmpPoint.split(',')[1]) );
-
-				}else{
+				if(tmpPoints){
 
 					var tmpPos = that._pointsToOverlay( tmpPoints ),
 
@@ -280,7 +278,14 @@
 
 					that.oMap.removeOverlay(oldPlo);
 
+					tmpPos.map(function(index, elem) {
+
+						var oMarker = new BMap.Marker(index);
+						
+						that.oMap.addOverlay(oMarker);
+					})
 				}
+
 
 				event.preventDefault();
 			});
@@ -445,13 +450,15 @@
 				
 			}
 		},
-		overlayMarker: function( obj ){
+		overlayMarker: function( obj, boolean ){
 
 			var that = this;
 
 			if( obj ){
 
 				var mPen = new BMap.Marker( new BMap.Point( obj ) );
+
+
 
 			}
 		},
@@ -497,7 +504,7 @@
 
 			that.overlayPoly( obj, true );
 			
-			that.overlayMarker( obj,true );
+			//that.overlayMarker( obj,false );
 
 			that.mapFixed( that.oMap );
 

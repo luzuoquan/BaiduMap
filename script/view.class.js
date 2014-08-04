@@ -1,20 +1,35 @@
 (function(){
 	var view = function( obj ){
+
 		this.pageCount = 3; //每页展示数量
+
 		this.oMap = null //BMap对象
+
 		this.DataSet = obj || null; //
+
 		this.currentPage = 1; // 当前显示页码
+
 		this.totalPage = $('#totalpage'); //一共多少页码
+
 		this.isPaint = false; //是否开启描点模式
+
 		this.prevPoly = ''; //上一次被查看的polygon
+
 		this.singleDetail = document.getElementById('single-detail'); //form
+
 		this.selfList = document.getElementById('self-list'); //列表
+
 		this.oPolygon = {}; //内存保存polygon
+
 		this.oMarker = {}; //内存保存Marker
+
+		this.temporaryPolygon = {}; //临时的编辑区域
+
 		this.selfIcon = new BMap.Icon('style/images/markers.png', new BMap.Size(19,25),{
 			anchor: new BMap.Size( 10,25 ),
 			imageOffset: new BMap.Size( -0, -(10*25) )
 		}); //自定义icon图标
+
 		this.mapConfig = {
 			defaultCity: '重庆',
 			defaultZoom: 9,
@@ -24,6 +39,7 @@
 			maxZoom : 17,
 			minZoom : 9
 		};
+
 		this.polygonOp ={ 
 			strokeColor: 'red',    //边线颜色
 			fillColor: 'yellow',  //填充颜色
@@ -32,6 +48,7 @@
 			fillOpacity: 0.3,    //填充的透明度
 			strokeStyle: 'solid'   //边线的样式
 		};
+
 		this.polygonHOp = {
 			strokeColor: 'red',    //边线颜色
 			fillColor: 'yellow',  //填充颜色
@@ -85,6 +102,14 @@
 
 				that.singleDetail.style.display = 'none';
 			});
+		},
+		selfHandle: function(obj,point,points){ //dragend事件的处理处理程序
+
+			point.value = obj.point.lng + ',' + obj.point.lat;
+
+			//points.value = obj.point
+
+			console.log(obj);
 		},
 		checkMap: function(){
 
@@ -179,7 +204,11 @@
 
 					tmpUrl = dataCon.attr('data-url'),
 
-					markerIndex = 1; //坐标集开始坐标index
+					markerIndex = 1;//坐标集开始坐标index
+
+				that.temporaryPolygon['marker'] = '';
+
+				that.temporaryPolygon['polygon'] = [];
 
 				landId.value = tmpId;
 
@@ -195,7 +224,24 @@
 			
 				that.singleDetail.style.display = 'block';
 
-				if(tmpPoint) that.oMap.setCenter( new BMap.Point(tmpPoint.split(',')[0], tmpPoint.split(',')[1]) );
+				if(tmpPoint){
+
+					that.oMap.setCenter( new BMap.Point(tmpPoint.split(',')[0], tmpPoint.split(',')[1]) );
+
+					that.oMap.removeOverlay(that.oMarker[tmpId]); //删除原marker,增加到编辑区临时的marker
+
+					var tmpPo = that._pointToOverlay(tmpPoint); 
+
+						mPen = new BMap.Marker(tmpPo,{icon:that.selfIcon}); //创建编辑时的marker 
+
+					that.oMap.addOverlay(mPen);
+
+					that.temporaryPolygon['marker'] = mPen;
+
+					mPen.enableDragging();
+
+					that.selfDragend(mPen,landPoint,landPoints);
+				}
 
 				if(tmpPoints){
 
@@ -212,13 +258,23 @@
 						var oMarker = new BMap.Marker(index);
 						
 						that.oMap.addOverlay(oMarker);
+
+						that.temporaryPolygon['polygon'].push(oMarker);
+
 					})
 				}
-
 
 				event.preventDefault();
 			});
 
+		},
+		selfDragend: function(params,inputPoint,inputPoints){ //封装dragend的事件
+
+			var that = this;
+
+			params.addEventListener('dragend', function(obj){
+				return that.selfHandle.call(null, obj,inputPoint,inputPoints);
+			});
 		},
 		mapFixed: function(params){
 
