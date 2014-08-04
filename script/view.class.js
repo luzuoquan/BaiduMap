@@ -107,9 +107,6 @@
 
 			point.value = obj.point.lng + ',' + obj.point.lat;
 
-			//points.value = obj.point
-
-			console.log(obj);
 		},
 		checkMap: function(){
 
@@ -256,12 +253,19 @@
 					tmpPos.map(function(index, elem) {
 
 						var oMarker = new BMap.Marker(index);
+
+						var selfLabel = new BMap.Label( elem );
+
+						selfLabel.setStyle( { display:'inline-block', color: '#fff', backgroundColor:'red', fontSize:'8px', borderRadius:'50%', height:'0px', width:'0px', textAlign:'center' } );
+
+						oMarker.setLabel(selfLabel);
 						
 						that.oMap.addOverlay(oMarker);
 
 						that.temporaryPolygon['polygon'].push(oMarker);
 
 					})
+
 				}
 
 				event.preventDefault();
@@ -273,6 +277,7 @@
 			var that = this;
 
 			params.addEventListener('dragend', function(obj){
+
 				return that.selfHandle.call(null, obj,inputPoint,inputPoints);
 			});
 		},
@@ -489,7 +494,7 @@
 
 			that.overlayPoly( obj, true );
 			
-			//that.overlayMarker( obj,false );
+			that.fileClick();
 
 			that.mapFixed( that.oMap );
 
