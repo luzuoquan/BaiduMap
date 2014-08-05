@@ -103,9 +103,17 @@
 				that.singleDetail.style.display = 'none';
 			});
 		},
-		selfHandle: function(obj,point,points){ //dragend事件的处理处理程序
+		selfHandle: function(obj,point,elem,ordata){ //dragend事件的处理处理程序
 
-			point.value = obj.point.lng + ',' + obj.point.lat;
+			if( point.nodeName.toLowerCase() == 'input' ) point.value = obj.point.lng + ',' + obj.point.lat;
+
+			if( point.nodeName.toLowerCase() == 'textarea' ){
+
+				console.log(ordata);
+
+				console.log( obj.point.lng + ',' + obj.point.lat );
+
+			}
 
 		},
 		checkMap: function(){
@@ -237,7 +245,7 @@
 
 					mPen.enableDragging();
 
-					that.selfDragend(mPen,landPoint,landPoints);
+					that.selfDragend(mPen,landPoint);
 				}
 
 				if(tmpPoints){
@@ -256,13 +264,19 @@
 
 						var selfLabel = new BMap.Label( elem );
 
-						selfLabel.setStyle( { display:'inline-block', color: '#fff', backgroundColor:'red', fontSize:'8px', borderRadius:'50%', height:'0px', width:'0px', textAlign:'center' } );
+						selfLabel.setStyle( { display:'block', position:'absolute', padding: '5px', color: '#fff', backgroundColor:'transparent', border:'none',fontSize:'12px' } );
+
+						if(elem >= 10) selfLabel.setOffset( new BMap.Size( -3,-1 ) );
 
 						oMarker.setLabel(selfLabel);
 						
 						that.oMap.addOverlay(oMarker);
 
+						oMarker.enableDragging();
+
 						that.temporaryPolygon['polygon'].push(oMarker);
+
+						that.selfDragend( oMarker, landPoints, elem, that.temporaryPolygon['polygon'] );
 
 					})
 
@@ -272,13 +286,13 @@
 			});
 
 		},
-		selfDragend: function(params,inputPoint,inputPoints){ //封装dragend的事件
+		selfDragend: function( params,par1,par2,par3){ //封装dragend的事件
 
 			var that = this;
 
 			params.addEventListener('dragend', function(obj){
 
-				return that.selfHandle.call(null, obj,inputPoint,inputPoints);
+				return that.selfHandle.call(null, par1,par2,par3);
 			});
 		},
 		mapFixed: function(params){
