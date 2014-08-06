@@ -19,6 +19,10 @@
 
 		this.selfList = document.getElementById('self-list'); //列表
 
+		this.deletePoint = document.getElementById('delete-point'); //删除中心点
+
+		this.deletePoints = document.getElementById('delete-points'); //删除坐标集
+
 		this.oPolygon = {}; //内存保存polygon
 
 		this.oMarker = {}; //内存保存Marker
@@ -26,35 +30,58 @@
 		this.temporaryPolygon = {}; //临时的编辑区域
 
 		this.selfIcon = new BMap.Icon('style/images/markers.png', new BMap.Size(19,25),{
+
 			anchor: new BMap.Size( 10,25 ),
+
 			imageOffset: new BMap.Size( -0, -(10*25) )
 		}); //自定义icon图标
 
+		this.pointBtn = document.getElementById('paint-point'); //描点模式,点击开启。
+
 		this.mapConfig = {
+
 			defaultCity: '重庆',
+
 			defaultZoom: 9,
+
 			defaultMapType: BMAP_HYBRID_MAP,
+
 			defaultMapId: 'map-container',
+
 			defaultPoints: new BMap.Point(106.524203,29.516936 ),
+
 			maxZoom : 17,
+
 			minZoom : 9
 		};
 
 		this.polygonOp ={ 
+
 			strokeColor: 'red',    //边线颜色
+
 			fillColor: 'yellow',  //填充颜色
+
 			strokeWeight: 2,    //边线的宽度
+
 			strokeOpacity: 0.7,  //边线透明度
+
 			fillOpacity: 0.3,    //填充的透明度
+
 			strokeStyle: 'solid'   //边线的样式
 		};
 
 		this.polygonHOp = {
+
 			strokeColor: 'red',    //边线颜色
+
 			fillColor: 'yellow',  //填充颜色
+
 			strokeWeight: 3,    //边线的宽度
+
 			strokeOpacity: 0.7,  //边线透明度
+
 			fillOpacity: 0.5,    //填充的透明度
+
 			strokeStyle: 'solid'   //边线的样式
 		}
 	};
@@ -78,7 +105,9 @@
 		fileClick: function(){
 
 			var that = this,
+
 				fileBtn = document.getElementById('filebtn'), //触发input[type=file]的按钮
+
 				file = document.getElementById('fileimg'); //input[type=file]
 
 			$(fileBtn).on('click', function(event) {
@@ -90,6 +119,7 @@
 		backToList: function(){
 
 			var that = this,
+
 				returnList = document.getElementById('returnlist'); //返回
 
 			$(returnList).on('click', function(event) {
@@ -101,6 +131,8 @@
 				that.selfList.style.display = 'block';
 
 				that.singleDetail.style.display = 'none';
+
+				that.isPaint = false;
 			});
 		},
 		selfHandle: function(obj,point,elem,ordata){ //dragend事件的处理处理程序
@@ -109,12 +141,74 @@
 
 			if( point.nodeName.toLowerCase() == 'textarea' ){
 
-				console.log(ordata);
+				ordata[elem].setPosition(new BMap.Point(obj.point.lng, obj.point.lat));
 
-				console.log( obj.point.lng + ',' + obj.point.lat );
+				point.value = View.prototype.polygonToArray(ordata);
 
 			}
 
+		},
+		polygonToArray: function(obj){ //将Polygon类型转化为字符串,用“|”相隔
+
+			var pointsArray = [],
+
+				resultArray = '';
+
+			if(obj){
+
+				obj.map(function(index, elem) {
+					
+					pointsArray.push(index.getPosition().lng + ',' + index.getPosition().lat );
+
+				})
+			}
+
+			resultArray = pointsArray.join('|');
+
+			return resultArray;
+
+		},
+		paintPoint: function(obj,input,data){ //描点开始
+
+			var that = obj;
+
+			$( that.pointBtn ).on( 'click', function(){
+
+				return that.mapClick.call(null, that, input, data);
+			} );
+		},
+		mapClick: function(t,inp,da){  //地图点击事件
+
+			var _that = t, //view对象
+				_input = inp, //textarea
+				_data = da; //临时的编辑区域
+			
+			_that.oMap.addEventListener('click', function(event){
+
+				if(_that.isPaint){
+
+					var oMarker = new BMap.Marker( new BMap.Point( event.point.lng, event.point.lat ));
+
+					var selfLabel = new BMap.Label( _data.length );
+
+					selfLabel.setStyle( { display:'block', position:'absolute', padding: '5px', color: '#fff', backgroundColor:'transparent', border:'none',fontSize:'12px' } );
+
+					if(_data.length >= 10) selfLabel.setOffset( new BMap.Size( -3,-1 ) );
+
+					oMarker.setLabel(selfLabel);
+					
+					_that.oMap.addOverlay(oMarker);
+
+					_input.value = _that.polygonToArray(_data);
+
+					oMarker.enableDragging();
+
+					_data.push(oMarker);
+
+					_that.selfDragend( oMarker, _input, _data.length - 1, _data );
+				}
+
+			})
 		},
 		checkMap: function(){
 
@@ -211,6 +305,8 @@
 
 					markerIndex = 1;//坐标集开始坐标index
 
+				that.isPaint = true;
+
 				that.temporaryPolygon['marker'] = '';
 
 				that.temporaryPolygon['polygon'] = [];
@@ -280,6 +376,8 @@
 
 					})
 
+					that.paintPoint(that, landPoints, that.temporaryPolygon['polygon']);
+
 				}
 
 				event.preventDefault();
@@ -292,7 +390,7 @@
 
 			params.addEventListener('dragend', function(obj){
 
-				return that.selfHandle.call(null, par1,par2,par3);
+				return that.selfHandle.call(null, obj, par1, par2, par3);
 			});
 		},
 		mapFixed: function(params){
@@ -490,8 +588,11 @@
 			return tmpPoint;
 		},
 		initMap : function( obj ){
+
 			var that = this,
+
 				mapPrev = $('#mapprev'), //上一页
+
 				mapNext = $('#mapnext'); //下一页
 
 			that.oMap = new BMap.Map( that.mapConfig.defaultMapId );
